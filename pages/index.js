@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
 import favicon from "../public/favicon.ico";
-import Config from "../components/Config";
 
 
 export default function Home() {
