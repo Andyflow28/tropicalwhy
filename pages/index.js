@@ -5,18 +5,21 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import favicon from "../public/favicon.ico";
 
-
 export default function Home() {
+  const hidden = "hidden";
+  const no_hidden =
+    "bg-green-600 h-60 w-80 fixed top-[50%] mt-[-5rem] left-[50%] ml-[-10rem] sm:w-9/12 sm:h-4/6 sm:ml-[-37.5%] sm:mt-[-19.5%]";
   const router = useRouter();
   const [session, setSession] = useState({});
+  const [loading, setLoading] = useState(hidden);
   const [credencials, setCredencials] = useState({
     UserName: "",
     password: "",
   });
-  
+
   const setd = () => {
-    router.push('/Question')
-  }
+    router.push("/Question");
+  };
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get("/api/auth/revition");
@@ -33,9 +36,9 @@ export default function Home() {
       });
     };
 
-
     const handleSubmit = async (e) => {
       e.preventDefault();
+      setLoading(no_hidden);
       const response = await axios.post("/api/auth/login", credencials);
       const responsed = await axios.get("/api/auth/revition");
       setSession(responsed.data);
@@ -51,7 +54,6 @@ export default function Home() {
           </Head>
           <div>
             <div className="bg-[url('/img/tropical.jpg')] w-full h-screen bg-cover flex justify-center items-center flex-col">
-              
               <h1 className="font-black text-4xl mb-8 text-red-400 sm:text-8xl">
                 THE GAME: Login
               </h1>
@@ -69,7 +71,7 @@ export default function Home() {
                   <input
                     type="text"
                     name="UserName"
-                    className="w-10/12 h-8 mx-auto bg-sky-300 my-3 text-red-400 font-bold sm:w-2/6"
+                    className="w-10/12 h-8 mx-auto bg-sky-300 my-3 text-red-400 font-bold sm:w-2/6 rounded-full px-5 py-3"
                     onChange={handleChange}
                   />
                   <label
@@ -81,7 +83,7 @@ export default function Home() {
                   <input
                     type="password"
                     name="password"
-                    className="w-10/12 h-8 mx-auto bg-sky-300 my-3 text-red-400 font-bold sm:w-2/6"
+                    className="w-10/12 h-8 mx-auto bg-sky-300 my-3 text-red-400 font-bold sm:w-2/6 rounded-full px-5 py-3"
                     onChange={handleChange}
                   />
                   <button
@@ -99,10 +101,15 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <div className={loading}>
+            <p className="text-white text-center mt-[6rem] text-3xl sm:text-8xl sm:mt-[25%]">
+              Loading...{" "}
+            </p>
+          </div>
         </div>
       </>
     );
   } else {
-    router.push('/Question')
+    router.push("/Question");
   }
 }

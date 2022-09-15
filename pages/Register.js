@@ -5,8 +5,12 @@ import axios from "axios";
 import favicon from "../public/favicon.ico";
 
 const Register = () => {
+  const hidden = "hidden";
+  const no_hidden =
+    "bg-green-600 h-60 w-80 fixed top-[50%] mt-[-5rem] left-[50%] ml-[-10rem] sm:w-9/12 sm:h-4/6 sm:ml-[-37.5%] sm:mt-[-19.5%]";
   const router = useRouter();
   const [session, setSession] = useState({});
+  const [loading, setLoading] = useState(hidden);
   const [register, setRegister] = useState({
     UserName: "",
     password: "",
@@ -29,6 +33,7 @@ const Register = () => {
     };
 
     const handleSubmit = async (e) => {
+      setLoading(no_hidden)
       try {
         e.preventDefault();
         const response = await axios.post("/api/auth/register", register);
@@ -45,7 +50,7 @@ const Register = () => {
           <link rel="shortcut icon" href={favicon.src} type="image/x-icon" />
         </Head>
         <div>
-          <di className="bg-[url('/img/tropical.jpg')] w-full h-screen bg-cover flex justify-center items-center flex-col">
+          <div className="bg-[url('/img/tropical.jpg')] w-full h-screen bg-cover flex justify-center items-center flex-col">
             <h1 className="font-black text-4xl mb-8 text-red-400 sm:text-8xl">
               THE GAME
             </h1>
@@ -60,7 +65,7 @@ const Register = () => {
                 <input
                   type="text"
                   name="UserName"
-                  className="w-10/12 h-8 mx-auto bg-sky-300 my-3 text-red-400 font-bold sm:w-2/6"
+                  className="w-10/12 h-8 mx-auto bg-sky-300 my-3 text-red-400 font-bold sm:w-2/6 rounded-full px-5 py-3"
                   onChange={handleChange}
                 />
                 <label
@@ -72,7 +77,7 @@ const Register = () => {
                 <input
                   type="password"
                   name="password"
-                  className="w-10/12 h-8 mx-auto bg-sky-300 my-3 text-red-400 font-bold sm:w-2/6 rounded-sm"
+                  className="w-10/12 h-8 mx-auto bg-sky-300 my-3 text-red-400 font-bold sm:w-2/6 rounded-full px-5 py-3"
                   onChange={handleChange}
                 />
                 <button
@@ -83,7 +88,12 @@ const Register = () => {
                 </button>
               </form>
             </div>
-          </di>
+          </div>
+          <div className={loading}>
+            <p className="text-white text-center mt-[6rem] text-3xl sm:text-8xl sm:mt-[25%]">
+              Loading...{" "}
+            </p>
+          </div>
         </div>
       </div>
     );

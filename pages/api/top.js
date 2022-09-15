@@ -27,6 +27,6 @@ const saveBuy = async (req, res) => {
     }
     res.status(200).json({ userTop: user, top: top });
   } catch (error) {
-    console.log(error);
+    console.log(error.code);
   }
 };

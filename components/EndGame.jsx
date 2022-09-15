@@ -3,14 +3,22 @@ import { useState } from "react";
 import axios from "axios";
 
 const EndGame = (props) => {
+  const hidden = "hidden";
+  const no_hidden =
+    "bg-green-600 h-60 w-80 fixed top-[50%] mt-[-5rem] left-[50%] ml-[-10rem] sm:w-9/12 sm:h-4/6 sm:ml-[-37.5%] sm:mt-[-19.5%]";
   const [open, setOpen] = useState(false);
   const [top, setTop] = useState([]);
   const [user, setUser] = useState([]);
+  const [loading, setLoading] = useState(hidden);
 
   const getTop = async () => {
+    setLoading(no_hidden)
     const response = await axios.get("/api/top");
     setTop(response.data.top);
     setUser(response.data.userTop);
+    if(response.data.userTop !== undefined) {
+      setLoading(hidden)
+    }
   };
 
   const changeOpen = () => {
@@ -111,6 +119,11 @@ const EndGame = (props) => {
             </p>
           ))}
         </div>
+      </div>
+      <div className={loading}>
+        <p className="text-white text-center mt-[6rem] text-3xl sm:text-8xl sm:mt-[25%]">
+          Loading...{" "}
+        </p>
       </div>
     </div>
   );
